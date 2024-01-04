@@ -1,0 +1,25 @@
+services:
+  listener:
+    image: kkoch986/ai-skeletons-audio-capture
+    environment:
+      LOG_LEVEL: DEBUG
+      SAMPLE_RATE: 16000
+      MQTT_PORT: 1883
+      MQTT_HOST: mqtt
+      MQTT_TOPIC: audio/capture/utterance
+    devices: 
+      - /dev/snd 
+  mqtt:
+    image: eclipse-mosquitto:latest
+    ports:
+      - 1883:1883
+      - 9001:9001
+    configs:
+      - source: mosquitto
+        target: /mosquitto/config/mosquitto.conf
+
+configs:
+  mosquitto: 
+    content: |
+      listener 1883
+      allow_anonymous true

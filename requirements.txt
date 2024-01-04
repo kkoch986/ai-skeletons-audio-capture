@@ -1,0 +1,3 @@
+pyaudio
+pocketsphinx
+paho-mqtt
