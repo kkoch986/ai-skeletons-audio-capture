@@ -1,5 +1,15 @@
 services:
+  mqtt:
+    image: eclipse-mosquitto:latest
+    ports:
+      - 1883:1883
+      - 9001:9001
+    configs:
+      - source: mosquitto
+        target: /mosquitto/config/mosquitto.conf
   listener:
+    depends_on:
+      - mqtt
     image: kkoch986/ai-skeletons-audio-capture
     environment:
       LOG_LEVEL: DEBUG
@@ -9,14 +19,6 @@ services:
       MQTT_TOPIC: audio/capture/utterance
     devices: 
       - /dev/snd 
-  mqtt:
-    image: eclipse-mosquitto:latest
-    ports:
-      - 1883:1883
-      - 9001:9001
-    configs:
-      - source: mosquitto
-        target: /mosquitto/config/mosquitto.conf
 
 configs:
   mosquitto: 
